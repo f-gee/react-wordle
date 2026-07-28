@@ -38,9 +38,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Note: If your build outputs to "build" instead of "dist" (e.g. CRA),
-          # change path to: path: './build'
-          path: "./dist"
+          path: "./build"
 
       - name: Deploy to GitHub Pages
         id: deployment
