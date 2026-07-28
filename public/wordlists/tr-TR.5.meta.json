@@ -1,0 +1,41 @@
+{
+  "language": "tr-TR",
+  "wordLength": 5,
+  "generatedBy": "scripts/build-wordlists.mjs",
+  "minFrequency": 10,
+  "hasDefinitions": true,
+  "counts": {
+    "guesses": 5402,
+    "answers": 3115,
+    "described": 3113
+  },
+  "tiers": {
+    "yaygin": {
+      "min": 1000,
+      "label": "herkesin bildiği",
+      "range": [
+        0,
+        1089
+      ],
+      "count": 1089
+    },
+    "orta": {
+      "min": 100,
+      "label": "tanıdık",
+      "range": [
+        1089,
+        2168
+      ],
+      "count": 1079
+    },
+    "nis": {
+      "min": 10,
+      "label": "niş ama adil",
+      "range": [
+        2168,
+        3115
+      ],
+      "count": 947
+    }
+  }
+}

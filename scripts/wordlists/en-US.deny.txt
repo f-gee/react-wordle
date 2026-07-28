@@ -1,0 +1,2 @@
+# Bu dosya deny listesi ile aynı biçimde çalışır: her satır bir kelime,
+# `#` sonrası yorum. Şimdilik boş — doldurdukça üretimde uygulanır.

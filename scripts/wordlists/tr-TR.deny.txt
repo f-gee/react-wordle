@@ -1,0 +1,192 @@
+# Listeden çıkarılacak kelimeler. Hem tahmin hem cevap havuzundan düşer.
+# `npm run wordlists` her çalıştığında yeniden uygulanır; elle yapılan kürasyon
+# böylece üretimden sağ çıkar.
+#
+# Buraya bir kelime eklerken kısa bir gerekçe yaz. Fikrini değiştirirsen
+# tr-TR.allow.txt allow listesi bunu ezer.
+
+# --- küfür / hakaret ---------------------------------------------------------
+# Not: camcı, eksik, kesik, pisik, sikke (para), dölüt (embriyo), fahiş (aşırı)
+# metin taramasında eşleşiyor ama masum; bilerek listeye alınmadı.
+boklu
+godoş
+kahpe
+sikme
+taşak
+yarak
+zenci     # etnik hakaret
+nonoş     # cinsel yönelim hakareti
+yosma     # kadına yönelik aşağılama
+kenef     # kaba argo
+sidik     # kaba
+penis     # anatomik, genel izleyici oyunu için uygun değil
+porno
+
+# --- TDK "Yabancı Sözlere Karşılıklar" maddeleri -----------------------------
+# TDK bunları Türkçe karşılığını göstermek için madde başı yapıyor; Türkçe
+# kelime değiller. Karşılığı yerleşmiş olanlar (siber, emoji, pivot, gofre,
+# krepe, plise, janti, babet, kapri) bilerek tutuldu.
+donut
+drift
+forza
+guard
+light
+mouse
+print
+slash
+start
+steps
+trend
+
+# --- çekimli / kalıplaşmamış formlar -----------------------------------------
+# Sözlükte madde başı ama kök değil. Cevap olarak oyunu ucuzlatırlar.
+# (gitti, bindi, çıktı gibi olanları ek çözümleyici zaten yakalıyor.)
+adamı
+amalı
+baçlı
+bulaş
+canım
+çıkım
+daral
+ekolu
+gelim
+gidim
+hisçe
+kışri
+kurun
+nefsi
+ondan
+sonki
+sürem
+türem
+tüysü
+usuli
+yekdü
+yokum
+
+# --- özel ad sızıntısı -------------------------------------------------------
+# TDK'da küçük harfle geçtikleri için otomatik özel ad filtresi kaçırıyor.
+hilti
+kenya
+kisra
+kuran
+mirim
+olcay
+praya
+remzi
+taala
+tahir
+
+# --- yanlış yazım ------------------------------------------------------------
+ünvan     # doğrusu "unvan"; TDK yanlış kullanımı göstermek için listeliyor
+
+# --- çekirdek listeden gelen çöp ---------------------------------------------
+herke
+koçma
+sıyga
+
+# --- dilbilgisel kalıplar ----------------------------------------------------
+# TDK bunları madde başı yapıyor (edat, zarf, bağlaç olarak kalıplaşmışlar) ama
+# kelime değil dilbilgisi parçaları; cevap olunca oyun tatsızlaşıyor.
+# Ek çözümleyicisi yakalayamıyor çünkü kökleri ("yeri", "hakkı") sözlükte tek
+# başına bu anlamda geçmiyor.
+#
+# Aynı kalıptaki GERÇEK kelimeler bilerek listede yok ve havuzda kalıyor:
+# düşünce, karınca, sakınca, çekince, akkarınca, günce, diken, liken, akdiken,
+# zinde, funda, camadan, dırdır, hanidir.
+
+# bulunma/çıkma hâli kalıpları
+ağzından
+akabinde
+anında
+aslında
+beyninde
+dışında
+elinden
+gıyabında
+gözünde
+günde
+hakkında
+icabında
+indinde
+içinde
+iyisinden
+kararında
+makamında
+nazarında
+nezdinde
+önünden
+saatinde
+sayesinde
+sırasında
+sonunda
+sularında
+şundan
+tıkırında
+uğrunda
+vaktinde
+yakında
+yanında
+yaşında
+yerinde
+yüzünden
+üzerinde
+zamanında
+zarfında
+esnasında
+
+# eşitlik eki almış zarflar
+aklınca
+ardınca
+bezgince
+bitkince
+boyunca
+bunca
+coşkunca
+çapkınca
+çılgınca
+çirkince
+dalgınca
+derince
+dolgunca
+düzgünce
+gereğince
+gergince
+geçkince
+gönlünce
+haince
+ipince
+kadarınca
+kadınca
+kalınca
+kararınca
+kendince
+keyfince
+mahzunca
+miskince
+mucibince
+narince
+olgunca
+ömrünce
+pişkince
+sakince
+serince
+süresince
+şaşkınca
+şişkince
+taşkınca
+uyarınca
+usulünce
+uzunca
+yeterince
+
+# diğer zarf/edat kalıpları
+çoktandır
+fiziken
+gittikçe
+körcesine
+neredeyse
+oldukça
+sadıkça
+şöylesine
+yeridir

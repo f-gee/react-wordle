@@ -1,78 +1,699 @@
-.App {
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #1a1a1a;
+/**
+ * React Wordle — Organic tasarım sistemi üzerine.
+ * Renk, tipografi, yarıçap ve gölge değerleri src/organic.css'teki
+ * değişkenlerden geliyor; buraya sabit hex yazılmıyor.
+ */
+
+/* ── sayfa kabuğu ──────────────────────────────────────────────────────── */
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 40px 44px 60px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  text-align: left;
 }
 
-.App-logo {
-  height: 40vmin;
+.page-blob {
+  position: absolute;
+  border-radius: 999px;
+  opacity: 0.5;
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.page-blob-top {
+  top: -180px;
+  right: -130px;
+  width: 540px;
+  height: 540px;
+  background: var(--color-accent-2-200);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.page-blob-bottom {
+  bottom: -240px;
+  left: -140px;
+  width: 460px;
+  height: 460px;
+  background: var(--color-accent-200);
+}
+
+.page-inner {
+  position: relative;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+/* ── başlangıç ekranı ──────────────────────────────────────────────────── */
+
+.start {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 64px;
+  align-items: flex-start;
+  padding-top: 40px;
+}
+
+.start-left {
+  flex: 1 1 480px;
+  min-width: 320px;
+  max-width: 640px;
+}
+
+.start-right {
+  flex: 0 1 400px;
+  min-width: 300px;
+  padding-top: 34px;
+}
+
+.hero-title {
+  margin: 24px 0 0;
+  font-size: 86px;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  color: var(--color-text);
+}
+
+.hero-title-alt {
+  margin: 0 0 24px;
+  color: var(--color-accent-700);
+}
+
+.hero-tagline {
+  margin: 0 0 10px;
+  max-width: 40ch;
+  font-size: 20px;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.hero-help {
+  margin: 0 0 34px;
+  max-width: 44ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+
+.field-label {
+  margin-bottom: 9px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent-700);
+}
+
+.seg-opt {
+  font-size: 14px;
+  padding: 9px 18px;
+}
+
+.start-btn {
+  margin-top: 26px;
+  padding: 17px 40px;
+  font-size: 19px;
+  box-shadow: var(--shadow-md);
+}
+
+/* örnek tahta */
+.demo-board {
   display: flex;
   flex-direction: column;
+  gap: 9px;
+  margin-bottom: 26px;
+}
+
+.demo-row {
+  display: flex;
+  gap: 9px;
+}
+
+.demo-tile {
+  font-size: 29px;
+}
+
+/* açıklama listesi */
+.legend {
+  display: flex;
+  flex-direction: column;
+}
+
+.legend-lg { gap: 11px; }
+.legend-sm { gap: 10px; }
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.legend-swatch {
+  flex: none;
+  border-radius: 7px;
+}
+
+.legend-lg .legend-swatch { width: 22px; height: 22px; }
+.legend-sm .legend-swatch { width: 20px; height: 20px; }
+
+.legend-lg .legend-label { font-size: 14px; }
+.legend-sm .legend-label { font-size: 13px; }
+
+/* ── oyun ekranı ───────────────────────────────────────────────────────── */
+
+.game {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 52px;
+  align-items: flex-start;
+}
+
+.sidebar {
+  display: flex;
+  flex: 1 1 250px;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 240px;
+  max-width: 330px;
+}
+
+.sidebar-seg { align-self: flex-start; }
+
+.brand {
+  margin: 0 0 4px;
+  font-size: 27px;
+}
+
+.brand-sub {
+  font-size: 13px;
+  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+}
+
+.guess-card { gap: 12px; }
+
+.guess-count {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 42px;
+  line-height: 1;
+}
+
+.progress {
+  display: flex;
+  gap: 7px;
+}
+
+.progress-seg {
+  flex: 1;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--color-neutral-300);
+}
+
+.progress-seg.is-used { background: var(--color-accent-600); }
+
+.stats {
+  display: flex;
+  gap: 10px;
+}
+
+.stat {
+  flex: 1;
+  padding: 13px 12px;
+  border-radius: 20px;
+  background: var(--color-neutral-200);
+}
+
+.stat-value {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 26px;
+  line-height: 1;
+}
+
+.stat-label {
+  margin-top: 5px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+}
+
+.sidebar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.new-word-btn,
+.hint-btn {
+  padding: 11px 22px;
+}
+
+.hint-btn:not(:disabled) {
+  border-color: var(--color-accent-300);
+  background: var(--color-accent-200);
+  color: var(--color-accent-800);
+}
+
+/* ── ipucu paneli ──────────────────────────────────────────────────────── */
+
+.hint-panel {
+  width: 100%;
+  max-width: 570px;
+  padding: 14px 18px;
+  border: 1px solid var(--color-accent-300);
+  border-radius: 22px;
+  background: var(--color-accent-100);
+}
+
+.hint-label {
+  margin-bottom: 4px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent-700);
+}
+
+.hint-text {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--color-accent-900);
+  text-wrap: pretty;
+}
+
+.hint-letters {
+  display: flex;
+  gap: 7px;
+  margin-top: 4px;
+}
+
+.hint-slot {
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* wordle styles */
-.start-btn {
-  padding: 12px 40px;
+  width: 34px;
+  height: 34px;
+  border: 1px dashed var(--color-accent-300);
+  border-radius: 10px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
   font-size: 18px;
-  font-weight: bold;
-  color: white;
-  background-color: #6aaa64;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+  color: var(--color-accent-800);
 }
 
-.start-btn:hover {
-  background-color: #5b9a56;
+.hint-slot.is-shown {
+  border-style: solid;
+  border-color: var(--color-accent-2-600);
+  background: var(--color-accent-2-600);
+  color: var(--color-bg);
 }
 
-.lang-select {
-  padding: 8px 12px;
+.countdown {
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: var(--color-accent-600);
+  color: var(--color-bg);
   font-size: 14px;
-  border: 1px solid #d3d6da;
-  border-radius: 4px;
-  margin-bottom: 12px;
+  font-weight: 600;
 }
+
+/* ── ipucu seçimi ──────────────────────────────────────────────────────── */
+
+.hint-warn {
+  width: 100%;
+  padding: 11px 15px;
+  border-radius: 18px;
+  background: var(--color-accent-200);
+  color: var(--color-accent-800);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.hint-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.hint-option {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 14px 18px;
+  border: 1px solid var(--color-divider);
+  border-radius: 22px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.hint-option:hover {
+  border-color: var(--color-accent);
+  background: var(--color-accent-100);
+}
+
+.hint-option-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hint-option-title {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 18px;
+}
+
+.hint-option-cost {
+  flex: none;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent-700);
+}
+
+.hint-option-note {
+  font-size: 13px;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+
+/* İpucuna verilen satırlar: oynanamaz olduğu görünsün. */
+.board-row.is-burned {
+  opacity: 0.4;
+}
+
+.board-row.is-burned .tile {
+  border-style: dashed;
+}
+
+.progress-seg.is-burned {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-accent-300) 0 3px,
+    transparent 3px 6px
+  );
+}
+
+.board-area {
+  display: flex;
+  flex: 2 1 540px;
+  flex-direction: column;
+  align-items: center;
+  gap: 34px;
+  min-width: 340px;
+}
+
+/* ── tahta ─────────────────────────────────────────────────────────────── */
+
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  perspective: 900px;
+}
+
+.board-row {
+  display: flex;
+  gap: 9px;
+}
+
+.board-row.is-shaking { animation: rowShake 440ms ease; }
+
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 62px;
+  height: 62px;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 30px;
+  line-height: 1;
+  user-select: none;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.tile-empty {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-neutral-300);
+}
+
+.tile-filled {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-neutral-500);
+}
+
+/* Tahta kutusu, klavye tuşu ve açıklama kutucuğu aynı üç durumu paylaşıyor. */
+.tile-correct {
+  background: var(--color-accent-2-600);
+  color: var(--color-bg);
+  border-color: var(--color-accent-2-600);
+}
+
+.tile-present {
+  background: var(--color-accent-500);
+  color: var(--color-bg);
+  border-color: var(--color-accent-500);
+}
+
+.tile-absent {
+  background: var(--color-neutral-500);
+  color: var(--color-neutral-100);
+  border-color: var(--color-neutral-500);
+}
+
+.tile-reveal { animation: tileFlip 460ms cubic-bezier(0.3, 0.8, 0.3, 1) both; }
+.tile-pop { animation: tilePop 130ms ease; }
+
+/* ── klavye ────────────────────────────────────────────────────────────── */
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  width: 100%;
+  max-width: 570px;
+}
+
+.key-row {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.key {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 54px;
+  padding: 0 2px;
+  border: 1px solid var(--color-neutral-300);
+  border-radius: 16px;
+  background: var(--color-neutral-200);
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 120ms ease, transform 90ms ease;
+}
+
+.key:hover { filter: brightness(0.95); }
+.key:active { transform: translateY(1px); }
+
+.key-action {
+  flex: 1.9;
+  background: var(--color-accent-200);
+  color: var(--color-accent-800);
+  border-color: var(--color-accent-300);
+}
+
+/* İpucu renkleri kutularla aynı; sınır rengi de dolguya eşitlenir. */
+.key-correct {
+  background: var(--color-accent-2-600);
+  color: var(--color-bg);
+  border-color: var(--color-accent-2-600);
+}
+
+.key-present {
+  background: var(--color-accent-500);
+  color: var(--color-bg);
+  border-color: var(--color-accent-500);
+}
+
+.key-absent {
+  background: var(--color-neutral-500);
+  color: var(--color-neutral-100);
+  border-color: var(--color-neutral-500);
+}
+
+/* ── toast ─────────────────────────────────────────────────────────────── */
 
 .toast {
   position: fixed;
-  top: 20px;
+  top: 26px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #1a1a1a;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 4px;
+  padding: 13px 24px;
+  border-radius: 999px;
+  background: var(--color-neutral-900);
+  color: var(--color-neutral-100);
   font-size: 14px;
+  box-shadow: var(--shadow-lg);
   z-index: 1000;
+  animation: toastIn 200ms ease;
+}
+
+/* ── sonuç kutusu ──────────────────────────────────────────────────────── */
+
+.dialog-backdrop { z-index: 1100; }
+
+.result-dialog {
+  align-items: flex-start;
+  animation: dialogIn 240ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.dialog-title { font-size: 31px; }
+
+.dialog-inset {
+  width: 100%;
+  padding: 16px 20px;
+  border-radius: 22px;
+  background: var(--color-bg);
+}
+
+.dialog-inset-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 58%, transparent);
+}
+
+.dialog-answer {
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 42px;
+  line-height: 1.1;
+  color: var(--color-accent-700);
+}
+
+/* Oyun bittikten sonra anlamlar tam hâliyle gösterilir. */
+.meaning-list {
+  margin: 12px 0 0;
+  padding-left: 18px;
+  border-top: 1px solid var(--color-divider);
+  padding-top: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+}
+
+.meaning-list li + li { margin-top: 6px; }
+
+.meaning-list::marker,
+.meaning-list li::marker {
+  color: var(--color-accent-700);
+}
+
+/* ── Adam Asmaca ───────────────────────────────────────────────────────── */
+
+.hangman-scene {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 3 / 4;
+  /* WebGL tuvali saydam; Organic zemini olduğu gibi geçiyor */
+}
+
+.hangman-scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.word-slots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.word-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 56px;
+  border-bottom: 3px solid var(--color-neutral-500);
+  font-family: var(--font-heading);
+  font-weight: var(--font-heading-weight);
+  font-size: 28px;
+  line-height: 1;
+  color: var(--color-text);
+  user-select: none;
+}
+
+.word-slot.is-open { animation: tilePop 130ms ease; }
+
+/* Kaybedince açılan, oyuncunun bulamadığı harfler. */
+.word-slot.is-missed {
+  color: var(--color-accent-600);
+  border-bottom-color: var(--color-accent-300);
+}
+
+.key:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+/* ── animasyonlar ──────────────────────────────────────────────────────── */
+
+@keyframes tileFlip {
+  0% { transform: rotateX(-92deg); }
+  60% { transform: rotateX(8deg); }
+  100% { transform: rotateX(0); }
+}
+
+@keyframes tilePop {
+  0% { transform: scale(0.9); }
+  55% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+@keyframes rowShake {
+  0%, 100% { transform: translateX(0); }
+  18% { transform: translateX(-9px); }
+  38% { transform: translateX(8px); }
+  58% { transform: translateX(-6px); }
+  78% { transform: translateX(4px); }
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translate(-50%, -14px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@keyframes dialogIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile-reveal,
+  .tile-pop,
+  .board-row.is-shaking,
+  .toast,
+  .result-dialog {
+    animation: none;
+  }
 }

@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# generated word list cache
+/scripts/.cache
+
+# Claude Code dev-server yapılandırması
+/.claude

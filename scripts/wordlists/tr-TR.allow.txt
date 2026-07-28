@@ -1,0 +1,50 @@
+# Zorla dahil edilecek kelimeler. Her filtreyi ezer: özel ad, deny listesi,
+# frekans eşiği ve ek çözümleyici. Cevap havuzuna da doğrudan girer.
+#
+# Asıl işi: ek çözümleyicinin yanlış pozitiflerini geri almak. Çözümleyici
+# "kök + üretken ek" gördüğü an eliyor, ama bazı kelimeler o kalıba uysa da
+# tek parça sayılır ya da o kadar yerleşmiştir ki cevap olmayı hak eder.
+
+# --- ek çözümleyicisinin yanlış elediği kökler -------------------------------
+gerçi     # ger(mek)+çi değil, bağlaç
+kuytu     # kuy+tu değil, sıfat
+parti     # par+ti değil
+sancı     # san(mak)+cı değil, isim
+yortu     # yor(mak)+tu değil, yortu = dinî bayram
+dürtü     # dür(mek)+tü sayılıyor ama kalıplaşmış isim
+
+# --- kalıplaşmış fiil adları -------------------------------------------------
+# "-ma/-me" eki cevap havuzundan düşürülüyor ("gitme", "yapma", "bakma" zayıf
+# cevaplar). Ama bunlar artık fiil adı değil, kendi başına isim.
+atama
+basma     # kumaş
+çizme     # ayakkabı
+dolma
+dövme
+düğme
+karma
+kazma
+kıyma
+ödeme
+sarma
+saçma
+sürme
+üreme
+yağma
+
+# --- teknik olarak türemiş ama cevap olmayı hak eden yerleşik kelimeler ------
+aracı
+artçı
+kanlı
+savcı
+soylu
+süslü
+tatlı
+tüylü
+yaşlı
+yerli
+yolcu
+
+# --- doğru yazımı listede olmayanlar -----------------------------------------
+unvan     # TDK yalnız yanlış biçim "ünvan"ı madde başı yapmış
+çıtır
