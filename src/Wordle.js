@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { loadWords, loadDefinitions, pickAnswer, toUpper, toLower } from "./words";
+import {
+  loadWords, loadDefinitions, pickAnswer, toUpper, toLower, normalizeKey,
+} from "./words";
 import { score, keyStates, satisfiesHardMode, WORD_LENGTH } from "./game";
 import { useHint } from "./hint";
 import {
@@ -209,8 +211,9 @@ export default function Wordle({
         e.preventDefault();
         return back();
       }
-      if (Array.from(e.key).length !== 1) return;
-      const ch = toLower(e.key, lang);
+      const key = normalizeKey(e.key);
+      if (Array.from(key).length !== 1) return;
+      const ch = toLower(key, lang);
       if (LANG.alphabet.includes(ch)) {
         e.preventDefault();
         type(ch);

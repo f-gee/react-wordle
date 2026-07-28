@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
-import { loadWords, loadDefinitions, pickAnswer, toUpper, toLower } from "./words";
+import {
+  loadWords, loadDefinitions, pickAnswer, toUpper, toLower, normalizeKey,
+} from "./words";
 import { useHint } from "./hint";
 import { HangmanScene } from "./HangmanScene";
 import {
@@ -221,8 +223,9 @@ export default function Hangman({ LANG, lang, length, difficulty, onExit }) {
     const onKeyDown = (e) => {
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       if (e.key === "Escape" && hint.chooserOpen) return hint.close();
-      if (Array.from(e.key).length !== 1) return;
-      const ch = toLower(e.key, lang);
+      const key = normalizeKey(e.key);
+      if (Array.from(key).length !== 1) return;
+      const ch = toLower(key, lang);
       if (LANG.alphabet.includes(ch)) {
         e.preventDefault();
         guess(ch);

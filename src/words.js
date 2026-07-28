@@ -17,6 +17,20 @@ export function toLower(text, locale) {
   return text.toLocaleLowerCase(locale);
 }
 
+/**
+ * Klavyeden gelen tuşu tek kod noktasına toplar.
+ *
+ * Bazı klavye düzenleri ve IME'ler Türkçe harfleri ayrık gönderiyor:
+ * "İ" yerine "I" + birleşen nokta, "ş" yerine "s" + birleşen çengel. Bunlar
+ * iki kod noktası olduğu için "tek karakter mi" kontrolüne takılıyor ve tuş
+ * sessizce yok sayılıyordu — Türkçeye özgü bütün harfler yazılamıyordu.
+ *
+ * Kelime listeleri de NFC ile üretiliyor, böylece iki taraf aynı biçimde.
+ */
+export function normalizeKey(key) {
+  return typeof key === "string" ? key.normalize("NFC") : key;
+}
+
 function parseList(text) {
   const lines = text
     .split("\n")

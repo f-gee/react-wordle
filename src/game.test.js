@@ -1,5 +1,7 @@
 import { score, keyStates, satisfiesHardMode } from "./game";
-import { toUpper, toLower, obscureDefinition, hintFromDefinitions } from "./words";
+import {
+  toUpper, toLower, normalizeKey, obscureDefinition, hintFromDefinitions,
+} from "./words";
 
 describe("score", () => {
   test("yerinde harfler yeşil, kelimede olanlar sarı", () => {
@@ -82,6 +84,41 @@ describe("Türkçe harf dönüşümü", () => {
   test("büyüt-küçült turu kelimeyi bozmuyor", () => {
     for (const word of ["sıcak", "iğne", "ılık", "işlem", "çığır"]) {
       expect(toLower(toUpper(word, "tr-TR"), "tr-TR")).toBe(word);
+    }
+  });
+});
+
+describe("normalizeKey", () => {
+  /**
+   * Bazı klavye düzenleri Türkçe harfleri ayrık gönderiyor. Toplanmazlarsa iki
+   * kod noktası olarak gelip "tek karakter mi" kontrolüne takılıyor ve tuş
+   * sessizce yutuluyordu.
+   */
+  test("ayrık gelen harfler tek kod noktasına toplanır", () => {
+    const ayrik = {
+      "İ": "İ",  // I + birleşen nokta
+      "ş": "ş",  // s + birleşen çengel
+      "ü": "ü",
+      "ğ": "ğ",
+      "ç": "ç",
+      "ö": "ö",
+    };
+    for (const [girdi, beklenen] of Object.entries(ayrik)) {
+      const out = normalizeKey(girdi);
+      expect(out).toBe(beklenen);
+      expect(Array.from(out).length).toBe(1);
+    }
+  });
+
+  test("zaten toplu gelen harf bozulmaz", () => {
+    for (const ch of ["İ", "ş", "ü", "ğ", "ç", "ö", "ı", "a"]) {
+      expect(normalizeKey(ch)).toBe(ch);
+    }
+  });
+
+  test("tuş adları olduğu gibi kalır", () => {
+    for (const key of ["Enter", "Backspace", "Escape"]) {
+      expect(normalizeKey(key)).toBe(key);
     }
   });
 });
