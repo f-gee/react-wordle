@@ -3,7 +3,7 @@ import {
   loadWords, loadDefinitions, pickAnswer, toUpper, toLower, normalizeKey,
 } from "./words";
 import { useHint } from "./hint";
-import { HangmanScene } from "./HangmanScene";
+import { Gallows } from "./Gallows";
 import {
   Keyboard, HintPanel, HintChooser, ResultDialog, StatTiles, Countdown, Toast,
 } from "./components";
@@ -292,9 +292,8 @@ export default function Hangman({ LANG, lang, length, difficulty, onExit }) {
       </aside>
 
       <div className="board-area">
-        {/* Kazanınca kopanlar yerine dönmüyor — yeni oyunda stage 0'a inince
-            hepsi toparlanıyor. Havada duran uzvun geri zıplaması tuhaf olurdu. */}
-        <HangmanScene stage={stage} active={status === "playing"} />
+        {/* Kazanınca çizim silinir: stage 0'a inince parçalar geri çekilir. */}
+        <Gallows stage={status === "won" ? 0 : stage} />
 
         {hint.hint && (
           <HintPanel LANG={LANG} lang={lang} hint={hint.hint} length={length} />

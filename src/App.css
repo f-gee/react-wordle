@@ -608,17 +608,50 @@
 
 /* ── Adam Asmaca ───────────────────────────────────────────────────────── */
 
-.hangman-scene {
-  width: 100%;
-  max-width: 360px;
-  aspect-ratio: 3 / 4;
-  /* WebGL tuvali saydam; Organic zemini olduğu gibi geçiyor */
-}
+/* ── tebeşir tahtası ───────────────────────────────────────────────────── */
 
-.hangman-scene canvas {
+.gallows {
   display: block;
   width: 100%;
-  height: 100%;
+  max-width: 330px;
+  aspect-ratio: 220 / 260;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+}
+
+.chalkboard { fill: #2f4438; }
+
+.chalk-frame,
+.chalk-figure {
+  fill: none;
+  stroke: #f4f1e6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 5;
+  /* Tebeşir tam opak basmaz; hafif saydamlık tozlu izi veriyor. */
+  opacity: 0.92;
+}
+
+.chalk-figure { stroke-width: 4.5; }
+
+/**
+ * Parçalar çizilirken ucundan uzuyor. pathLength=1 normalize ettiği için
+ * dairenin ve çizgilerin çizilme süresi aynı.
+ */
+.chalk-part > * {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 420ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chalk-part.is-drawn > * { stroke-dashoffset: 0; }
+
+/* Son parça çizildiğinde tahta kısaca sarsılır. */
+.gallows.is-final { animation: rowShake 440ms ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .chalk-part > * { transition: stroke-dashoffset 120ms linear; }
+  .gallows.is-final { animation: none; }
 }
 
 .word-slots {
