@@ -1,0 +1,44 @@
+{
+  "languages": {
+    "tr-TR": [
+      {
+        "length": 5,
+        "guesses": 5402,
+        "answers": 3115,
+        "hasDefinitions": true
+      },
+      {
+        "length": 6,
+        "guesses": 6044,
+        "answers": 2692,
+        "hasDefinitions": true
+      },
+      {
+        "length": 7,
+        "guesses": 7904,
+        "answers": 2399,
+        "hasDefinitions": true
+      },
+      {
+        "length": 8,
+        "guesses": 8918,
+        "answers": 2403,
+        "hasDefinitions": true
+      },
+      {
+        "length": 9,
+        "guesses": 7470,
+        "answers": 1341,
+        "hasDefinitions": true
+      }
+    ],
+    "en-US": [
+      {
+        "length": 5,
+        "guesses": 14855,
+        "answers": 3944,
+        "hasDefinitions": false
+      }
+    ]
+  }
+}
