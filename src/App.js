@@ -49,7 +49,6 @@ function GameScene() {
     setGrid(updated);
   };
 
-  // used by both real keyboard typing and virtual keyboard clicks
   const typeLetter = (letter) => {
     const { row, col } = active;
     setLetter(row, col, letter.toUpperCase());
@@ -63,13 +62,18 @@ function GameScene() {
     const { row, col } = active;
 
     if (grid[row][col]) {
-      // clear current box
       setLetter(row, col, "");
     } else if (col > 0) {
-      // move back and clear previous box
       setLetter(row, col - 1, "");
       focusBox(row, col - 1);
     }
+  };
+
+  const handleEnter = () => {
+    const { row } = active;
+    const word = grid[row].join("");
+    console.log("submitted guess:", word);
+    // TODO: validate word, check against answer, advance to next row
   };
 
   const handleChange = (row, col, value) => {
@@ -87,40 +91,47 @@ function GameScene() {
       e.preventDefault();
       setActive({ row, col });
       handleBackspace();
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      handleEnter();
     }
   };
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Guess the word</h1>
-
       <div style={{ display: "inline-block" }}>
         {grid.map((rowValues, row) => (
           <div
             key={row}
             style={{ display: "flex", justifyContent: "center", gap: "8px", marginBottom: "8px" }}
           >
-            {rowValues.map((letter, col) => (
-              <input
-                key={col}
-                type="text"
-                maxLength={1}
-                value={letter}
-                onChange={(e) => handleChange(row, col, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(row, col, e)}
-                onFocus={() => setActive({ row, col })}
-                ref={(el) => {
-                  if (!inputRefs.current[row]) inputRefs.current[row] = [];
-                  inputRefs.current[row][col] = el;
-                }}
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  textAlign: "center",
-                  fontSize: "24px",
-                }}
-              />
-            ))}
+            {rowValues.map((letter, col) => {
+              const isActive = active.row === row && active.col === col;
+              return (
+                <input
+                  key={col}
+                  type="text"
+                  maxLength={1}
+                  value={letter}
+                  onChange={(e) => handleChange(row, col, e.target.value)}
+                  onKeyDown={(e) => handleKeyDown(row, col, e)}
+                  onFocus={() => setActive({ row, col })}
+                  onMouseDown={(e) => {
+                    if (!isActive) e.preventDefault(); // block clicking into non-active boxes
+                  }}
+                  ref={(el) => {
+                    if (!inputRefs.current[row]) inputRefs.current[row] = [];
+                    inputRefs.current[row][col] = el;
+                  }}
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    textAlign: "center",
+                    fontSize: "24px",
+                  }}
+                />
+              );
+            })}
           </div>
         ))}
       </div>
@@ -128,48 +139,56 @@ function GameScene() {
       <VirtualKeyboard
         layout={LANG.keyboardLayout}
         onKeyPress={typeLetter}
+        onEnter={handleEnter}
         onBackspace={handleBackspace}
       />
     </div>
   );
 }
 
-function VirtualKeyboard({ layout, onKeyPress, onBackspace }) {
+function VirtualKeyboard({ layout, onKeyPress, onEnter, onBackspace }) {
   return (
     <div style={{ marginTop: "30px" }}>
-      {layout.map((rowStr, i) => (
-        <div
-          key={i}
-          style={{ display: "flex", justifyContent: "center", gap: "6px", marginBottom: "6px" }}
-        >
-          {rowStr.split("").map((key) => (
-            <button
-              key={key}
-              onClick={() => onKeyPress(key)}
-              style={{
-                padding: "10px 12px",
-                fontSize: "16px",
-                textTransform: "uppercase",
-                cursor: "pointer",
-              }}
-            >
-              {key}
-            </button>
-          ))}
-          {i === layout.length - 1 && (
-            <button
-              onClick={onBackspace}
-              style={{
-                padding: "10px 12px",
-                fontSize: "16px",
-                cursor: "pointer",
-              }}
-            >
-              ⌫
-            </button>
-          )}
-        </div>
-      ))}
+      {layout.map((rowStr, i) => {
+        const isLastRow = i === layout.length - 1;
+        return (
+          <div
+            key={i}
+            style={{ display: "flex", justifyContent: "center", gap: "6px", marginBottom: "6px" }}
+          >
+            {isLastRow && (
+              <button
+                onClick={onEnter}
+                style={{ padding: "10px 12px", fontSize: "16px", cursor: "pointer" }}
+              >
+                Enter
+              </button>
+            )}
+            {rowStr.split("").map((key) => (
+              <button
+                key={key}
+                onClick={() => onKeyPress(key)}
+                style={{
+                  padding: "10px 12px",
+                  fontSize: "16px",
+                  textTransform: "uppercase",
+                  cursor: "pointer",
+                }}
+              >
+                {key}
+              </button>
+            ))}
+            {isLastRow && (
+              <button
+                onClick={onBackspace}
+                style={{ padding: "10px 12px", fontSize: "16px", cursor: "pointer" }}
+              >
+                ⌫
+              </button>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
